@@ -1,12 +1,6 @@
-import { createClient } from "urql";
+import { gql } from "@apollo/client";
 
-const APIURL = "https://api-mumbai.lens.dev";
-
-export const client = new createClient({
-  url: APIURL,
-});
-
-export const recommendedProfiles = `
+export const recommendedProfiles = gql`
   query RecommendedProfiles {
     recommendedProfiles {
       id
@@ -81,10 +75,10 @@ export const recommendedProfiles = `
           recipient
         }
         ... on ProfileFollowModuleSettings {
-        type
+          type
         }
         ... on RevertFollowModuleSettings {
-        type
+          type
         }
       }
     }

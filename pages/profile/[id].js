@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { client, getProfileById, getPublicationsById } from "../../api";
+import { getProfileById, getPublicationsById } from "../../api";
 import ABI from "../../abi.json";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
@@ -22,7 +22,7 @@ export default function Profile() {
     }
   }, [id]);
 
-  async function fetchProfile() {
+  /* async function fetchProfile() {
     try {
       const response = await client.query(getProfileById, { id }).toPromise();
       console.log("PROFILE", response);
@@ -36,7 +36,7 @@ export default function Profile() {
     } catch (err) {
       console.log("ERROR:", err);
     }
-  }
+  } */
 
   async function connectWallet() {
     const accounts = await window.ethereum.request({
@@ -46,7 +46,7 @@ export default function Profile() {
     setAccounts(accounts);
   }
 
-  async function followUser() {
+  /*  async function followUser() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
@@ -59,7 +59,7 @@ export default function Profile() {
     } catch (err) {
       console.log("Failed to follow user due to", err);
     }
-  }
+  } */
 
   return (
     <Layout>
