@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client/core";
 import { apolloClient } from "../apollo-client";
 import { getAuthenticationToken, setAuthenticationToken } from "../utils/state";
+import { ethers } from "ethers";
 
 const GET_CHALLENGE = `
   query($request: ChallengeRequest!) {
