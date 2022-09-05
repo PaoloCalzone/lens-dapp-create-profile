@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { CREATE_PROFILE } from "../api";
-import { gql, useMutation } from "@apollo/client";
+import { CREATE_PROFILE, GET_PROFILES, GET_DEFAULT_PROFILES } from "../api";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { login } from "../api/login";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import HeroSection from "../components/HeroSection";
 import { apolloClient } from "../apollo-client";
 
-// TODO
-// Define the createProfile query and function
-// Add a button to let the user create his profilenpm run de
+// TODO create form to create a profile
+
 export default function Home() {
   const [accounts, setAccounts] = useState(null);
 
@@ -24,37 +23,18 @@ export default function Home() {
     login(accounts[0]);
   }
 
-  const [createProfile, { data, loading, error }] = useMutation(
-    gql(CREATE_PROFILE)
-  );
-
-  console.log("LOADING", loading);
-  console.log("ERROR", error);
-  console.log("DATA", data);
-
-  /* const createProfile = async function createProfile() {
+  async function createProfile() {
     const response = await apolloClient.mutate({
       mutation: gql(CREATE_PROFILE),
       variables: {
         request: {
-          handle: "jimmyConnors",
+          handle: "Chaussettes",
         },
       },
     });
-  }; */
+    console.log("CREATION RESPONSE", response);
+  }
 
-  /*  if (loading)
-    return (
-      <div>
-        <p>loading...</p>
-      </div>
-    );
-  if (error)
-    return (
-      <div>
-        <p>`Error! ${error.message}`</p>
-      </div>
-    ); */
   return (
     <Layout>
       <Head>
@@ -63,19 +43,7 @@ export default function Home() {
       <HeroSection />
       <div className="my-16 space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 md:grid-cols-3 md:gap-x-8 lg:grid-cols-4">
         <button onClick={() => connectWallet()}>Connect Wallet</button>
-        <button
-          onClick={() =>
-            createProfile({
-              variables: {
-                request: {
-                  handle: "jimmyConnors",
-                },
-              },
-            })
-          }
-        >
-          Create Profile
-        </button>
+        <button onClick={() => createProfile()}>Create Profile</button>
       </div>
     </Layout>
   );
