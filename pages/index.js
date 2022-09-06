@@ -31,8 +31,8 @@ export default function Home() {
       mutation: gql(CREATE_PROFILE),
       variables: {
         request: {
-          _handle,
-          _profilePictureURI,
+          handle: _handle,
+          profilePictureUri: _profilePictureURI,
         },
       },
     });
@@ -55,10 +55,11 @@ export default function Home() {
         <HeroSection />
         <section className="relative py-12">
           <h1 className="text-lg my-8">
-            1. Connect your wallet and select Polygon Mumbai network
+            1. Connect your wallet, select Polygon Mumbai network and sign the
+            transaction to be logged in.
           </h1>
           <button
-            className="bg-emerald-600 w-40 py-2 px-4 text-center border border-gray-300 rounded-full shadow-sm text-sm font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="bg-emerald-600 w-40 py-2 px-4 text-center border border-gray-300 rounded-full shadow-sm text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700"
             onClick={() => connectWallet()}
           >
             Connect Wallet
@@ -86,7 +87,7 @@ export default function Home() {
                       id="event-name"
                       name="event-name"
                       type="text"
-                      className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                      className="block max-w-lg w-full shadow-sm focus:ring-emerald-700 focus:border-emerald-700 sm:text-sm border border-gray-300 rounded-md"
                       required
                       value={handle}
                       onChange={(e) => setHandle(e.target.value)}
@@ -112,8 +113,7 @@ export default function Home() {
                       id="event-name"
                       name="event-name"
                       type="text"
-                      className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                      required
+                      className="block max-w-lg w-full shadow-sm focus:ring-emerald-700 focus:border-emerald-700 sm:text-sm border border-gray-300 rounded-md"
                       value={profilePictureURI}
                       onChange={(e) => setProfilePictureURI(e.target.value)}
                     />
@@ -124,7 +124,7 @@ export default function Home() {
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="flex   ml-3 w-40 py-2 px-8  border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-emerald-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="flex   ml-3 w-40 py-2 px-8  border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       /* disabled={submitting} */
                     >
                       {/*   {submitting ? <Spinner /> : ""} */}
