@@ -7,6 +7,7 @@ import { login } from "../api/login";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import HeroSection from "../components/HeroSection";
+import Profiles from "../components/Profiles";
 import { apolloClient } from "../apollo-client";
 
 // TODO create form to create a profile
@@ -26,24 +27,24 @@ export default function Home() {
     setAccount(accounts[0]);
   }
 
-  async function createProfile(_handle, _profilePictureURI) {
-    const response = await apolloClient.mutate({
-      mutation: gql(CREATE_PROFILE),
-      variables: {
-        request: {
-          handle: _handle,
-          profilePictureUri: _profilePictureURI,
-        },
-      },
-    });
-    console.log("CREATION RESPONSE", response);
-  }
+  const [createProfile, { data, loading, error }] = useMutation(
+    gql(CREATE_PROFILE)
+  );
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Submiting form");
-    createProfile(handle, profilePictureURI);
-    console.log("Profile successfully created!");
+    createProfile({
+      variables: {
+        request: {
+          handle: handle,
+          profilePictureUri: profilePictureURI,
+        },
+      },
+    });
+    console.log("DATA", data.createProfile.reason);
+    if (data.createProfile.reason == "HANDLE_TAKEN")
+      alert("HANDLE ALREADY TAKEN. TRY ANOTHER ONE");
   }
 
   return (
@@ -136,6 +137,7 @@ export default function Home() {
             </form>
             <h1 className="text-lg my-8">3. You belong to us now!</h1>
           </div>
+          <Profiles account={account} />
         </section>
       </div>
     </Layout>
