@@ -56,9 +56,9 @@ export default function Profile({ account, txHash }) {
                 Lenster
               </a>{" "}
               to edit your profile! Because I lent my ape only for the the demo.
-              You can choose your profile picture, metadata your followers will
-              mint when they follow you and much more. Just follow the white
-              rabbit!
+              You can choose your profile picture, which metadata your followers
+              will mint when they follow you and much more. Just follow the
+              white rabbit!
             </p>
             <p className="text-lg mb-12">
               Last but not least: you can create as many profiles as you want

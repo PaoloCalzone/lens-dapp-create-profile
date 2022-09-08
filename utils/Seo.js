@@ -11,7 +11,7 @@ const Seo = () => {
         content="width=device-width, initial-scale=1, maximum-scale=5"
       />
 
-      <meta property="og:url" content="https://lenster.xyz" />
+      <meta property="og:url" content="https://lens-do-it.vercel.app/" />
       <meta property="og:site_name" content="Lens do it!" />
       <meta property="og:title" content="Lens do it!" />
       <meta
