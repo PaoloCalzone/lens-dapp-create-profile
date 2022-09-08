@@ -3,10 +3,10 @@ import { CREATE_PROFILE } from "../api";
 import { gql, useMutation } from "@apollo/client";
 import { login } from "../api/login";
 import Layout from "../components/Layout";
-import Head from "next/head";
 import HeroSection from "../components/HeroSection";
 import Profiles from "../components/Profiles";
 import Spinner from "../components/Spinner";
+import Seo from "../utils/Seo";
 
 export default function Home() {
   const [account, setAccount] = useState(null);
@@ -48,10 +48,8 @@ export default function Home() {
 
   return (
     <Layout>
+      <Seo />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Head>
-          <title>Lens do it</title>
-        </Head>
         <HeroSection />
         <section className="relative py-12">
           <h1 className="text-lg my-8">
