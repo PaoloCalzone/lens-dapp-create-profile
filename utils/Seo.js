@@ -18,7 +18,10 @@ const Seo = () => {
         property="og:description"
         content="Create your lens handle on testnet!"
       />
-      <meta property="og:image" content={OGImage} />
+      <meta
+        property="og:image"
+        content="https://lens-do-it.vercel.app/og-picture.png"
+      />
       <meta property="og:image:width" content="400" />
       <meta property="og:image:height" content="400" />
 
@@ -29,7 +32,10 @@ const Seo = () => {
         property="twitter:description"
         content="Create your lens handle on testnet!"
       />
-      <meta property="twitter:image:src" content={OGImage} />
+      <meta
+        property="twitter:image:src"
+        content="https://lens-do-it.vercel.app/og-picture.png"
+      />
       <meta property="twitter:image:width" content="400" />
       <meta property="twitter:image:height" content="400" />
       <meta property="twitter:creator" content="paolocalzone" />
