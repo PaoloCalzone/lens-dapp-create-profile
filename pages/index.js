@@ -45,7 +45,7 @@ export default function Home() {
     <Layout>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <Head>
-          <title>Lensbook</title>
+          <title>Lens do it</title>
         </Head>
         <HeroSection />
         <section className="relative py-12">
