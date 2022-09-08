@@ -3,11 +3,14 @@ import { GET_PROFILES } from "../api";
 import ProfileCard from "./ProfileCard";
 
 export default function Profile({ account }) {
-  console.log("ACCOUNT", account);
   const { loading, error, data } = useQuery(gql(GET_PROFILES), {
-    variables: { request: { ownedBy: account } },
+    variables: {
+      request: { ownedBy: account },
+      pollInterval: 500,
+      notifyOnNetworkStatusChange: true,
+    },
   });
-  console.log("data", data);
+
   return (
     <div>
       <ul

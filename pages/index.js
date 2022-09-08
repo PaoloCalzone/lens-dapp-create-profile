@@ -1,16 +1,11 @@
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { CREATE_PROFILE, GET_PROFILES, GET_DEFAULT_PROFILES } from "../api";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { useState } from "react";
+import { CREATE_PROFILE } from "../api";
+import { gql, useMutation } from "@apollo/client";
 import { login } from "../api/login";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import HeroSection from "../components/HeroSection";
 import Profiles from "../components/Profiles";
-import { apolloClient } from "../apollo-client";
-
-// TODO create form to create a profile
 
 export default function Home() {
   const [account, setAccount] = useState(null);
@@ -21,8 +16,6 @@ export default function Home() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
-    console.log("accounts:", accounts);
-    console.log("Trying to log in...");
     login(accounts[0]);
     setAccount(accounts[0]);
   }
@@ -31,9 +24,9 @@ export default function Home() {
     gql(CREATE_PROFILE)
   );
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submiting form");
+
     createProfile({
       variables: {
         request: {
@@ -42,9 +35,10 @@ export default function Home() {
         },
       },
     });
-    console.log("DATA", data.createProfile.reason);
-    if (data.createProfile.reason == "HANDLE_TAKEN")
+
+    if (data && data.createProfile.reason == "HANDLE_TAKEN") {
       alert("HANDLE ALREADY TAKEN. TRY ANOTHER ONE");
+    }
   }
 
   return (
