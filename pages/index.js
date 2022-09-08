@@ -6,11 +6,12 @@ import Layout from "../components/Layout";
 import Head from "next/head";
 import HeroSection from "../components/HeroSection";
 import Profiles from "../components/Profiles";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
   const [account, setAccount] = useState(null);
   const [handle, setHandle] = useState("");
-  const [profilePictureURI, setProfilePictureURI] = useState("");
+  const [txHash, settxHash] = useState(null);
 
   async function connectWallet() {
     const accounts = await window.ethereum.request({
@@ -27,17 +28,21 @@ export default function Home() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    createProfile({
+    const response = await createProfile({
       variables: {
         request: {
           handle: handle,
-          profilePictureUri: profilePictureURI,
         },
       },
     });
 
-    if (data && data.createProfile.reason == "HANDLE_TAKEN") {
+    if (response.error)
+      alert(`Oooops, something went wrong: ${response.error}`);
+    if (response.data && response.data.createProfile.reason == "HANDLE_TAKEN") {
       alert("HANDLE ALREADY TAKEN. TRY ANOTHER ONE");
+    }
+    if (response.data.createProfile.txHash) {
+      settxHash(response.data.createProfile.txHash);
     }
   }
 
@@ -50,16 +55,21 @@ export default function Home() {
         <HeroSection />
         <section className="relative py-12">
           <h1 className="text-lg my-8">
-            1. Connect your wallet, select Polygon Mumbai network and sign the
-            transaction to be logged in.
+            <span className="text-2xl">1.</span> Connect your wallet, select{" "}
+            <strong>Polygon Mumbai</strong> network and <strong>sign</strong>{" "}
+            the transaction to be logged in.
           </h1>
-          <button
-            className="bg-emerald-600 w-40 py-2 px-4 text-center border border-gray-300 rounded-full shadow-sm text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700"
-            onClick={() => connectWallet()}
-          >
-            Connect Wallet
-          </button>
-          <h1 className="text-lg my-8">2. Choose an funky handle!</h1>
+          <div className="flex justify-end">
+            <button
+              className="bg-emerald-600 w-40 py-2 px-4 text-center border border-gray-300 rounded-full shadow-sm text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-700"
+              onClick={() => connectWallet()}
+            >
+              Connect Wallet
+            </button>
+          </div>
+          <h1 className="text-lg my-8">
+            <span className="text-2xl">2.</span> Choose a funky handle!
+          </h1>
           <div className="my-16 space-y-12">
             <form
               onSubmit={handleSubmit}
@@ -68,13 +78,13 @@ export default function Home() {
               <div className="space-y-6 sm:space-y-5">
                 <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                   <label
-                    htmlFor="eventname"
+                    htmlFor="handle"
                     className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
                     Handle
                     <p className="mt-1 max-w-2xl text-sm text-gray-400">
                       Your handle will receive the `.test` extension on lens
-                      testnet.
+                      testnet. Min. 5 characters, max 30.
                     </p>
                   </label>
                   <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -86,31 +96,7 @@ export default function Home() {
                       required
                       value={handle}
                       onChange={(e) => setHandle(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-                  <label
-                    htmlFor="date"
-                    className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                  >
-                    Profile Picture Uri
-                    <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                      You can pass in a profilePictureUri which is a link to any
-                      kind of storage that points to an image. You can leave
-                      this out the request if you do not want to supply a
-                      default image for the profile.
-                    </p>
-                  </label>
-                  <div className="mt-1 sm:mt-0 sm:col-span-2">
-                    <input
-                      id="event-name"
-                      name="event-name"
-                      type="text"
-                      className="block max-w-lg w-full shadow-sm focus:ring-emerald-700 focus:border-emerald-700 sm:text-sm border border-gray-300 rounded-md"
-                      value={profilePictureURI}
-                      onChange={(e) => setProfilePictureURI(e.target.value)}
+                      disabled={!account}
                     />
                   </div>
                 </div>
@@ -120,18 +106,21 @@ export default function Home() {
                     <button
                       type="submit"
                       className="flex   ml-3 w-40 py-2 px-8  border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      /* disabled={submitting} */
+                      disabled={loading}
                     >
-                      {/*   {submitting ? <Spinner /> : ""} */}
-                      <span className="flex-1">Create</span>
+                      {loading ? <Spinner /> : ""}
+                      <span className="flex-1">Create </span>
                     </button>
                   </div>
                 </div>
               </div>
             </form>
-            <h1 className="text-lg my-8">3. You belong to us now!</h1>
+            <h1 className="text-lg my-8">
+              <span className="text-2xl">3.</span>{" "}
+              {txHash ? "Congrats! See what happened:" : "Curious?"}
+            </h1>
           </div>
-          <Profiles account={account} />
+          <Profiles account={account} txHash={txHash} />
         </section>
       </div>
     </Layout>
